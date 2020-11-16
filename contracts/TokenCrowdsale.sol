@@ -53,7 +53,7 @@ contract TokenCrowdsale {
         _forwardFunds();
     }
 
-    function _forwardFunds() internal {
+    function _forwardFunds() private {
         // Transfer ETH to the fund collection wallet
         wallet.transfer(msg.value);
     }
