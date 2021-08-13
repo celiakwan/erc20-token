@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.6;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract Token is ERC20 {
-    constructor(uint256 _totalSupply) public ERC20("GoldenEggToken", "GET") {
+    constructor(uint _totalSupply) ERC20("GoldenEggToken", "GET") {
         _mint(msg.sender, _totalSupply);
-        _setupDecimals(18);
     }
 }

@@ -16,9 +16,9 @@ contract('Token', accounts => {
         const symbol = await token.symbol.call();
         const supply = BN(await token.totalSupply.call());
 
-        assert.equal(name, 'GoldenEggToken', 'Correct token name');
-        assert.equal(symbol, 'GET', 'Correct token symbol');
-        assert.equal(supply.toString(), totalSupply.toString(), 'Correct total supply');
+        assert.equal(name, 'GoldenEggToken', 'Incorrect token name');
+        assert.equal(symbol, 'GET', 'Incorrect token symbol');
+        assert.equal(supply.toString(), totalSupply.toString(), 'Incorrect total supply');
     });
 
     it('Transfer tokens exceeding balance', async () => {
@@ -42,23 +42,23 @@ contract('Token', accounts => {
         const senderBalance = BN(await token.balanceOf(admin));
         const recipientBalance = BN(await token.balanceOf(recipient));
 
-        assert.equal(senderBalance.toString(), totalSupply.toString(), 'Correct token balance of the sender account');
-        assert.equal(recipientBalance.toString(), '0', 'Correct token balance of the recipient account');
+        assert.equal(senderBalance.toString(), totalSupply.toString(), 'Incorrect token balance of the sender account');
+        assert.equal(recipientBalance.toString(), '0', 'Incorrect token balance of the recipient account');
         
         const transfer = await token.transfer(recipient, amount, {from: admin});
 
-        assert.isTrue(transfer.receipt.status, 'Transferred successfully');
-        assert.equal(transfer.logs[0].args.from, admin, 'Correct sender account');
-        assert.equal(transfer.logs[0].args.to, recipient, 'Correct recipient account');
-        assert.equal(BN(transfer.logs[0].args.value).toString(), amount.toString(), 'Correct transfer amount');
+        assert.isTrue(transfer.receipt.status, 'Transfer failed');
+        assert.equal(transfer.logs[0].args.from, admin, 'Incorrect sender account');
+        assert.equal(transfer.logs[0].args.to, recipient, 'Incorrect recipient account');
+        assert.equal(BN(transfer.logs[0].args.value).toString(), amount.toString(), 'Incorrect transfer amount');
 
         const tokensAvailable = totalSupply.sub(amount);
 
         const senderBalanceAfter = BN(await token.balanceOf(admin));
         const recipientBalanceAfter = BN(await token.balanceOf(recipient));
 
-        assert.equal(senderBalanceAfter.toString(), tokensAvailable.toString(), 'Correct token balance of the sender account after transfer');
-        assert.equal(recipientBalanceAfter.toString(), amount.toString(), 'Correct token balance of the recipient account after transfer');
+        assert.equal(senderBalanceAfter.toString(), tokensAvailable.toString(), 'Incorrect token balance of the sender account after transfer');
+        assert.equal(recipientBalanceAfter.toString(), amount.toString(), 'Incorrect token balance of the recipient account after transfer');
     });
 
     it('Authorized spender transfers tokens exceeding allowance', async () => {
@@ -68,14 +68,14 @@ contract('Token', accounts => {
 
         const approval = await token.approve(spender, amountToSpend, {from: admin});
 
-        assert.isTrue(approval.receipt.status, 'Approved successfully');
-        assert.equal(approval.logs[0].args.owner, admin, 'Correct owner account');
-        assert.equal(approval.logs[0].args.spender, spender, 'Correct spender account');
-        assert.equal(BN(approval.logs[0].args.value).toString(), amountToSpend.toString(), 'Correct transfer amount authorized to spender');
+        assert.isTrue(approval.receipt.status, 'Approval failed');
+        assert.equal(approval.logs[0].args.owner, admin, 'Incorrect owner account');
+        assert.equal(approval.logs[0].args.spender, spender, 'Incorrect spender account');
+        assert.equal(BN(approval.logs[0].args.value).toString(), amountToSpend.toString(), 'Incorrect transfer amount authorized to spender');
 
         const allowance = BN(await token.allowance(admin, spender));
 
-        assert.equal(allowance.toString(), amountToSpend.toString(), 'Correct allowance for delegated transfer');
+        assert.equal(allowance.toString(), amountToSpend.toString(), 'Incorrect allowance for delegated transfer');
 
         const amountToTransfer = BN(11);
         let f;
@@ -96,34 +96,34 @@ contract('Token', accounts => {
 
         const approval = await token.approve(spender, amount, {from: admin});
 
-        assert.isTrue(approval.receipt.status, 'Approved successfully');
-        assert.equal(approval.logs[0].args.owner, admin, 'Correct owner account');
-        assert.equal(approval.logs[0].args.spender, spender, 'Correct spender account');
-        assert.equal(BN(approval.logs[0].args.value).toString(), amount.toString(), 'Correct transfer amount authorized to spender');
+        assert.isTrue(approval.receipt.status, 'Approval failed');
+        assert.equal(approval.logs[0].args.owner, admin, 'Incorrect owner account');
+        assert.equal(approval.logs[0].args.spender, spender, 'Incorrect spender account');
+        assert.equal(BN(approval.logs[0].args.value).toString(), amount.toString(), 'Incorrect transfer amount authorized to spender');
 
         const allowance = BN(await token.allowance(admin, spender));
 
-        assert.equal(allowance.toString(), amount.toString(), 'Correct allowance for delegated transfer');
+        assert.equal(allowance.toString(), amount.toString(), 'Incorrect allowance for delegated transfer');
 
         const ownerBalance = BN(await token.balanceOf(admin));
         const recipientBalance = BN(await token.balanceOf(recipient));
 
-        assert.equal(ownerBalance.toString(), totalSupply.toString(), 'Correct token balance of the owner account');
-        assert.equal(recipientBalance.toString(), '0', 'Correct token balance of the recipient account');
+        assert.equal(ownerBalance.toString(), totalSupply.toString(), 'Incorrect token balance of the owner account');
+        assert.equal(recipientBalance.toString(), '0', 'Incorrect token balance of the recipient account');
 
         const transferFrom = await token.transferFrom(admin, recipient, amount, {from: spender});
 
-        assert.isTrue(transferFrom.receipt.status, 'Transferred successfully');
-        assert.equal(transferFrom.logs[0].args.from, admin, 'Correct owner account');
-        assert.equal(transferFrom.logs[0].args.to, recipient, 'Correct recipient account');
-        assert.equal(BN(transferFrom.logs[0].args.value).toString(), amount.toString(), 'Correct transfer amount');
+        assert.isTrue(transferFrom.receipt.status, 'Transfer failed');
+        assert.equal(transferFrom.logs[0].args.from, admin, 'Incorrect owner account');
+        assert.equal(transferFrom.logs[0].args.to, recipient, 'Incorrect recipient account');
+        assert.equal(BN(transferFrom.logs[0].args.value).toString(), amount.toString(), 'Incorrect transfer amount');
 
         const tokensAvailable = totalSupply.sub(amount);
 
         const ownerBalanceAfter = BN(await token.balanceOf(admin));
         const recipientBalanceAfter = BN(await token.balanceOf(recipient));
 
-        assert.equal(ownerBalanceAfter.toString(), tokensAvailable.toString(), 'Correct token balance of the owner account after transfer');
-        assert.equal(recipientBalanceAfter.toString(), amount.toString(), 'Correct token balance of the recipient account after transfer');
+        assert.equal(ownerBalanceAfter.toString(), tokensAvailable.toString(), 'Incorrect token balance of the owner account after transfer');
+        assert.equal(recipientBalanceAfter.toString(), amount.toString(), 'Incorrect token balance of the recipient account after transfer');
     });
 });

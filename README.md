@@ -2,12 +2,12 @@
 An example of creating an ERC-20 token and a crowdsale smart contract in Solidity along with a demonstration of how to deploy them and test their features on a local blockchain network using Truffle and Ganache.
 
 ### Version
-- [Solidity](https://solidity.readthedocs.io/): 0.6.0
-- [Truffle](https://www.trufflesuite.com/): 5.1.50
-- [Ganache CLI](https://github.com/trufflesuite/ganache-cli): 6.12.1
-- [Web3.js](https://web3js.readthedocs.io/): 1.2.9
-- [Node.js](https://nodejs.org/en/): 15.0.1
-- [@openzeppelin/contracts](https://openzeppelin.com/): 3.2.0
+- [Solidity](https://solidity.readthedocs.io/): 0.8.6
+- [Truffle](https://www.trufflesuite.com/): 5.4.5
+- [Ganache CLI](https://github.com/trufflesuite/ganache-cli): 6.12.2
+- [Web3.js](https://web3js.readthedocs.io/): 1.5.1
+- [Node.js](https://nodejs.org/en/): 16.6.1
+- [@openzeppelin/contracts](https://openzeppelin.com/): 4.2.0
 
 ### Installation
 Install Node.js.
@@ -39,23 +39,23 @@ By default, Ganache will create 10 accounts and preload each with 100 ETH on you
     truffle compile
     ```
 
-2. Before migrating to our local blockchain, we should start the Ganache CLI in a new terminal.
-    ```
-    ganache-cli -p 7545
-    ```
-
-3. Deploy the smart contracts.
+2. Deploy the smart contracts.
     ```
     truffle migrate
     ```
 
 ### Testing
-Run test cases for the ERC-20 token.
+Start the Ganache CLI.
+```
+ganache-cli -p 7545
+```
+
+Run test cases for the ERC-20 token in a new terminal.
 ```
 truffle test test/Token.js
 ```
 
-Run test cases for crowdsale.
+Run test cases for crowdsale in a new terminal.
 ```
 truffle test test/TokenCrowdsale.js
 ```
