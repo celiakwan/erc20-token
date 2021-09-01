@@ -23,10 +23,13 @@ contract('TokenCrowdsale', accounts => {
     });
 
     it('Start crowdsale', async () => {
+        const defaultEthInAccount = web3.utils.toWei('100', 'ether');
+        const purchaserEthBalance = BN(await web3.eth.getBalance(purchaser));
+        assert.equal(purchaserEthBalance.toString(), defaultEthInAccount.toString(), 'Correct ETH balance of the purchaser account');
+
         const beneficiaryBalance = BN(await token.balanceOf(beneficiary));
         assert.equal(beneficiaryBalance.toString(), '0', 'Incorrect token balance of the beneficiary account');
 
-        const purchaserEthBalance = BN(await web3.eth.getBalance(purchaser));
         const weiAmount = '1000';
         // The same as weiAmount since the exchange rate is 1
         const tokens = '1000';
